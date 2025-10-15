@@ -17,7 +17,7 @@ export default {
 
   async create(req, res) {
     const { name, description } = req.body;
-    if (!name) return res.status(400).json({ message: "name é obrigatório" });
+    if (!name) return res.status(400).json({ message: "Nome é obrigatório" });
     const item = await Item.create({ name, description });
     res.status(201).json(item);
   },
