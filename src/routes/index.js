@@ -37,5 +37,6 @@ router.get("/urbs/horarios-linha", async (req, res) => {
 router.post("/urbs/horarios-linha/sync", UrbsController.sync);
 router.get("/urbs/horarios-linha/db", UrbsController.list);
 router.get("/urbs/horarios-linha/db/dia", UrbsController.listByDia);
+router.get("/urbs/horarios-linha/db/dia-ponto", UrbsController.listByDiaEPonto);
 
 export default router;

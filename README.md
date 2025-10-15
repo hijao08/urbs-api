@@ -74,8 +74,14 @@ API em Node.js (Express) organizada em MVC para consumir uma API externa e persi
   - `GET /api/db/health` → `{ status: "ok" }` se conexão estiver ok
 - API externa (exemplo JSONPlaceholder):
   - `GET /api/external/posts` → retorna lista de posts
-- API Urbs:
-  - `GET /api/urbs/horarios-linha`
+- API URBS:
+  - Proxy direto da URBS (retorna da API externa):
+    - `GET /api/urbs/horarios-linha?linha=303&c=858ce`
+  - Sincronização e consultas no banco (ordenadas a partir de 04:00):
+    - `POST /api/urbs/horarios-linha/sync?linha=303&c=858ce` → busca na URBS e salva no Postgres
+    - `GET /api/urbs/horarios-linha/db?cod=303&limit=700` → lista geral do banco, filtro opcional por `cod`
+    - `GET /api/urbs/horarios-linha/db/dia?dia=1&cod=303&limit=700` → lista apenas do dia informado
+    - `GET /api/urbs/horarios-linha/db/dia-ponto?dia=1&ponto=TERMINAL%20CENTENARIO&cod=303&limit=700` → lista por dia e ponto
 - CRUD de Items (exemplo de modelo):
   - `GET /api/v1/items`
   - `GET /api/v1/items/:id`
