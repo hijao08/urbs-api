@@ -74,6 +74,8 @@ API em Node.js (Express) organizada em MVC para consumir uma API externa e persi
   - `GET /api/db/health` → `{ status: "ok" }` se conexão estiver ok
 - API externa (exemplo JSONPlaceholder):
   - `GET /api/external/posts` → retorna lista de posts
+- API Urbs:
+  - `GET /api/urbs/horarios-linha`
 - CRUD de Items (exemplo de modelo):
   - `GET /api/v1/items`
   - `GET /api/v1/items/:id`
