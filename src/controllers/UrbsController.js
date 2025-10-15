@@ -37,6 +37,31 @@ export default {
     res.json(items);
   },
 
+  async listByDia(req, res) {
+    const { cod, dia, limit = 700 } = req.query;
+    if (!dia)
+      return res.status(400).json({ message: "Parâmetro 'dia' é obrigatório" });
+    const where = { dia: String(dia) };
+    if (cod) where.cod = String(cod);
+
+    const items = await UrbsSchedule.findAll({
+      where,
+      order: [
+        [
+          sequelize.literal(
+            "CASE WHEN hora::time < time '04:00' " +
+              "THEN (timestamp '2000-01-02' + hora::time) " +
+              "ELSE (timestamp '2000-01-01' + hora::time) END"
+          ),
+          "ASC",
+        ],
+      ],
+      limit: Number(limit),
+    });
+
+    res.json(items);
+  },
+
   async sync(req, res) {
     const { linha = "303", c = "858ce" } = req.query;
     const data = await getUrbsHorariosLinha({ linha, c });
