@@ -2,6 +2,7 @@ import { Router } from "express";
 import apiRoutes from "./v1.js";
 import { getExamplePosts } from "../services/ExternalApiService.js";
 import { sequelize } from "../models/index.js";
+import UrbsController from "../controllers/UrbsController.js";
 import { getUrbsHorariosLinha } from "../services/UrbsApiService.js";
 
 const router = Router();
@@ -32,5 +33,8 @@ router.get("/urbs/horarios-linha", async (req, res) => {
     res.status(status).json({ message: err.message, status });
   }
 });
+
+router.post("/urbs/horarios-linha/sync", UrbsController.sync);
+router.get("/urbs/horarios-linha/db", UrbsController.list);
 
 export default router;
