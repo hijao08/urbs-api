@@ -38,5 +38,6 @@ router.post("/urbs/horarios-linha/sync", UrbsController.sync);
 router.get("/urbs/horarios-linha/db", UrbsController.list);
 router.get("/urbs/horarios-linha/db/dia", UrbsController.listByDia);
 router.get("/urbs/horarios-linha/db/dia-ponto", UrbsController.listByDiaEPonto);
+router.get("/urbs/horarios-linha/next", UrbsController.next);
 
 export default router;

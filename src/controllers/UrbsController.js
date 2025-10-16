@@ -110,4 +110,41 @@ export default {
 
     res.json({ message: "Sync concluído", insertedOrIgnored: mapped.length });
   },
+
+  async next(req, res) {
+    const { cod, dia, ponto } = req.query;
+    let { time } = req.query; // HH:MM
+
+    // Se não for informado, usa horário atual no fuso do servidor
+    if (!time) {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mm = String(now.getMinutes()).padStart(2, "0");
+      time = `${hh}:${mm}`;
+    }
+
+    const where = {};
+    if (cod) where.cod = String(cod);
+    if (dia) where.dia = String(dia);
+    if (ponto) where.ponto = String(ponto);
+
+    const items = await UrbsSchedule.findAll({
+      where,
+      order: [
+        [
+          sequelize.literal(
+            `CASE WHEN hora::time < time '${time}' ` +
+              `THEN (timestamp '2000-01-02' + hora::time) ` +
+              `ELSE (timestamp '2000-01-01' + hora::time) END`
+          ),
+          "ASC",
+        ],
+      ],
+      limit: 1,
+    });
+
+    if (!items.length)
+      return res.status(404).json({ message: "Nenhum horário encontrado" });
+    res.json({ referenceTime: time, next: items[0] });
+  },
 };
